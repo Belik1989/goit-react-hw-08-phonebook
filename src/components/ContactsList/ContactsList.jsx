@@ -14,7 +14,7 @@ export const ContactsList = ({ contact }) => {
   const contacts = useSelector(selectContacts);
   const dispatch = useDispatch();
 
-  const handleDelete = async () => {
+  const handleDelete = async contact => {
     try {
       await dispatch(deleteContact(contact.id));
       Notify.success('Contact was delete from your phonebook');
@@ -36,7 +36,7 @@ export const ContactsList = ({ contact }) => {
   return (
     <div>
       <List>
-        {visibleContacts.map(({ id, name, phone }) => (
+        {visibleContacts.map(({ id, name, number }) => (
           <li key={id}>
             <ButtonDelete onClick={() => handleDelete({ id })} type="button">
               Delete
@@ -47,7 +47,7 @@ export const ContactsList = ({ contact }) => {
             </span>
             <p>
               <BsTelephone />
-              {phone}
+              {number}
             </p>
           </li>
         ))}
@@ -62,7 +62,7 @@ ContactsList.propTypes = {
     PropTypes.exact({
       id: PropTypes.string.isRequired,
       name: PropTypes.string.isRequired,
-      phone: PropTypes.string.isRequired,
+      number: PropTypes.string.isRequired,
     })
   ),
 };

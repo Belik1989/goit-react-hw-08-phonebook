@@ -18,8 +18,8 @@ export function PhoneBook() {
     e.preventDefault();
     const form = e.target;
     const name = form.elements.name.value;
-    const phone = form.elements.phone.value;
-    const contactData = { name, phone };
+    const number = form.elements.number.value;
+    const contactData = { name, number };
     form.reset();
     if (contacts.find(contact => contact.name === name)) {
       Notify.warning(`${name} is already in contacts`);
@@ -42,11 +42,11 @@ export function PhoneBook() {
           title="Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan"
         />
       </FormLabel>
-      <FormLabel htmlFor="phone">
+      <FormLabel htmlFor="number">
         Phone
         <ContactFormINput
           type="tel"
-          name="phone"
+          name="number"
           pattern="\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}"
           title="Phone number must be digits and can contain spaces, dashes, parentheses and can start with +"
           required
