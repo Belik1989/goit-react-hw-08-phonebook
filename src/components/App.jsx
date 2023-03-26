@@ -1,50 +1,56 @@
-import { BsJournalBookmark } from 'react-icons/bs';
+import { Route, Routes } from 'react-router-dom';
+import Layout from './Layout/Layout';
+import { lazy, useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+import { useAuth } from '../hooks/useAuth';
+import { refreshUser } from 'redux/operations';
+import { PrivateRoute } from './PrivateRoute';
+import { RestrictedRoute } from './RestrictedRouter';
 
-import { PhoneBook } from './PhoneBook/PhoneBook';
-import { MainTitle } from './PhoneBook/PhoneBook.styled';
-import { ContactsList } from './ContactsList/ContactsList';
-import {
-  ContactsTitle,
-  ContactsSection,
-  ContactsNumbers,
-} from './ContactsList/ContactsList.styled';
-import { Filter } from './Filter/Filter';
-
-import { FormSection, PhoneBookBody } from './PhoneBook/PhoneBook.styled';
+const Main = lazy(() => import('./Main/Main'));
+const Registration = lazy(() => import('../pages/Registration'));
+const LogIn = lazy(() => import('../pages/LogIn'));
+const Contacts = lazy(() => import('../pages/Contacts'));
 
 const App = () => {
-  // const { data } = useGetContactsQuery();
+  const dispatch = useDispatch();
+  const { isRefreshing } = useAuth();
 
-  return (
-    <div
-      style={{
-        height: '100vh',
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'flex-start',
-        alignItems: 'center',
-        color: '#010101',
-      }}
-    >
-      <PhoneBookBody>
-        <MainTitle>
-          Phonebook
-          <BsJournalBookmark />
-        </MainTitle>
+  useEffect(() => {
+    dispatch(refreshUser());
+  }, [dispatch]);
 
-        <FormSection>
-          <PhoneBook />
-        </FormSection>
-        <ContactsSection>
-          <ContactsTitle>Contacts</ContactsTitle>
-          <Filter />
-
-          <ContactsList />
-
-          <ContactsNumbers></ContactsNumbers>
-        </ContactsSection>
-      </PhoneBookBody>
-    </div>
+  return isRefreshing ? (
+    <b>Refreshing user...</b>
+  ) : (
+    <>
+      <Routes>
+        <Route path="/" element={<Layout />}>
+          <Route index element={<Main />}></Route>
+          <Route
+            path="/login"
+            element={
+              <RestrictedRoute redirectTo="/contacts" component={<LogIn />} />
+            }
+          ></Route>
+          <Route
+            path="/register"
+            element={
+              <RestrictedRoute
+                redirectTo="/contacts"
+                component={<Registration />}
+              />
+            }
+          ></Route>
+          <Route
+            path="/contacts"
+            element={
+              <PrivateRoute redirectTo="/login" component={<Contacts />} />
+            }
+          ></Route>
+        </Route>
+      </Routes>
+    </>
   );
 };
 export default App;

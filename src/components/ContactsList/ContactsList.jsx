@@ -1,36 +1,40 @@
 import PropTypes from 'prop-types';
 import { List, ButtonDelete } from './ContactsList.styled';
-import {
-  useDeleteContactMutation,
-  useGetContactsQuery,
-} from 'redux/contactsSlice.js';
-import { useSelector } from 'react-redux';
-import { getFilter } from 'redux/selectors';
+import { useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { getFilter, selectContacts } from 'redux/selectors';
 import { BsTelephone } from 'react-icons/bs';
 import { IoIosContact } from 'react-icons/io';
+import { deleteContact } from 'redux/operations';
+import { Notify } from 'notiflix/build/notiflix-notify-aio';
+import { fetchContacts } from 'redux/operations';
 
-export const ContactsList = ({ id, name, phone }) => {
-  const { data, error, isLoading } = useGetContactsQuery();
+export const ContactsList = ({ contact }) => {
   const { filter } = useSelector(getFilter);
-  const [deleteContact] = useDeleteContactMutation();
-  const handleDelete = async contact => {
+  const contacts = useSelector(selectContacts);
+  const dispatch = useDispatch();
+
+  const handleDelete = async () => {
     try {
-      await deleteContact(contact.id);
-      alert('Contact was delete from your phonebook');
-    } catch (e) {
-      alert('Something wrong. Please, try again');
+      await dispatch(deleteContact(contact.id));
+      Notify.success('Contact was delete from your phonebook');
+    } catch (error) {
+      Notify.failure('Something wrong. Please, try again');
     }
   };
-  if (!data) {
+  useEffect(() => {
+    dispatch(fetchContacts());
+  }, [dispatch]);
+
+  if (!contacts) {
     return null;
   }
-  const visibleContacts = data.filter(contact =>
+  const visibleContacts = contacts.filter(contact =>
     contact.name.toLowerCase().includes(filter.toLowerCase())
   );
 
   return (
     <div>
-      {!error && isLoading && <div>Loading...</div>}
       <List>
         {visibleContacts.map(({ id, name, phone }) => (
           <li key={id}>

@@ -1,37 +1,33 @@
 import PropTypes from 'prop-types';
-
-import { useAddContactMutation } from 'redux/contactsSlice';
-import { useGetContactsQuery } from 'redux/contactsSlice';
+import { Notify } from 'notiflix/build/notiflix-notify-aio';
 import {
   Form,
   ContactFormINput,
   FormLabel,
   AddContactFormBtn,
 } from './PhoneBook.styled';
+import { useSelector, useDispatch } from 'react-redux';
+import { selectContacts } from 'redux/selectors';
+import { addContact } from 'redux/operations';
 
 export function PhoneBook() {
-  const [addContact] = useAddContactMutation();
-  const { data } = useGetContactsQuery();
+  const contacts = useSelector(selectContacts);
+  const dispatch = useDispatch();
 
   const handleSubmit = async e => {
     e.preventDefault();
     const form = e.target;
     const name = form.elements.name.value;
     const phone = form.elements.phone.value;
-
     const contactData = { name, phone };
     form.reset();
-
-    if (data.find(contact => contact.name === name)) {
-      alert(`${name} is already in contacts`);
+    if (contacts.find(contact => contact.name === name)) {
+      Notify.warning(`${name} is already in contacts`);
       return false;
     }
-    try {
-      await addContact(contactData);
-      alert('Contact was added to your phonebook');
-    } catch (e) {
-      alert('Oops, try again');
-    }
+
+    dispatch(addContact(contactData));
+    form.reset();
   };
 
   return (
