@@ -46,6 +46,7 @@ export const MainTitle = styled.h1`
     rgba(0, 0, 0, 0.3) 0px 18px 36px -18px;
   & svg {
     margin-left: 6px;
+    height: 100%;
   }
 `;
 
@@ -68,13 +69,18 @@ export const FormSection = styled.section`
 `;
 
 export const PhoneBookBody = styled.div`
-  border: 6px solid;
+  /* border: 6px solid;
   border-radius: 24px;
-  border-color: darkgray;
-  width: fit-content;
+  border-color: darkgray; */
+  display: flex;
+  flex-direction: row-reverse;
+  align-items: baseline;
+  width: 100%;
+  height: 100vh;
   margin-left: auto;
   margin-right: auto;
   margin-top: 20px;
+  padding-top: 20px;
   box-shadow: 0 45px 65px rgba(0, 0, 0, 0.5), 0 35px 22px rgba(0, 0, 0, 0.16);
   margin-bottom: 20px;
   background: rgb(230, 230, 230);
@@ -133,4 +139,17 @@ export const AddContactFormBtn = styled.button`
     outline: 0;
     box-shadow: 0 0 40px 40px #87ad5c inset;
   }
+`;
+
+export const SwitchPassViewBtn = styled.button`
+  padding-left: 5px;
+  padding-top: 0px;
+  padding-bottom: 0px;
+  cursor: pointer;
+  background: transparent;
+  border: none;
+`;
+export const PassBlock = styled.div`
+  display: flex;
+  justify-content: space-between;
 `;

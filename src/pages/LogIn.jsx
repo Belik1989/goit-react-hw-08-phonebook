@@ -1,6 +1,19 @@
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { logIn } from 'redux/operations';
+import {
+  Form,
+  FormSection,
+  FormLabel,
+  ContactFormINput,
+  AddContactFormBtn,
+  SwitchPassViewBtn,
+  PassBlock,
+} from 'components/PhoneBook/PhoneBook.styled';
+import {
+  ContactsTitle
+} from '../components/ContactsList/ContactsList.styled';
+import { BsEye, BsEyeSlash } from 'react-icons/bs';
 
 const LogIn = () => {
   const [passwordType, setPasswordType] = useState('password');
@@ -27,26 +40,34 @@ const LogIn = () => {
     form.reset();
   };
   return (
-    <div>
-      <form onSubmit={handleSubmit}>
-        <h2>Log In</h2>
-        <label htmlFor="">
+    <FormSection>
+      <Form onSubmit={handleSubmit}>
+        <ContactsTitle>Log In</ContactsTitle>
+        <FormLabel htmlFor="">
           Email
-          <input required name="email" type="text"></input>
-        </label>
-        <label htmlFor="">
-          <div>
+          <ContactFormINput
+            required
+            name="email"
+            type="text"
+          ></ContactFormINput>
+        </FormLabel>
+        <FormLabel htmlFor="">
+          <PassBlock>
             <span>Password</span>
-            <button onClick={changePasswordType}>
-              {passwordType === 'password'}
-              {passwordType === 'text'}
-            </button>
-          </div>
-          <input required name="password" type={passwordType}></input>
-        </label>
-        <button type="submit">Log In</button>
-      </form>
-    </div>
+            <SwitchPassViewBtn onClick={changePasswordType}>
+              {passwordType === 'password' && <BsEyeSlash />}
+              {passwordType === 'text' && <BsEye />}
+            </SwitchPassViewBtn>
+          </PassBlock>
+          <ContactFormINput
+            required
+            name="password"
+            type={passwordType}
+          ></ContactFormINput>
+        </FormLabel>
+        <AddContactFormBtn type="submit">Log In</AddContactFormBtn>
+      </Form>
+    </FormSection>
   );
 };
 

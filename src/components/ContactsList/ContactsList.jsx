@@ -8,6 +8,7 @@ import { IoIosContact } from 'react-icons/io';
 import { deleteContact } from 'redux/operations';
 import { Notify } from 'notiflix/build/notiflix-notify-aio';
 import { fetchContacts } from 'redux/operations';
+import { Container } from 'components/Menu/Menu.styled';
 
 export const ContactsList = ({ contact }) => {
   const { filter } = useSelector(getFilter);
@@ -34,7 +35,7 @@ export const ContactsList = ({ contact }) => {
   );
 
   return (
-    <div>
+    <Container>
       <List>
         {visibleContacts.map(({ id, name, number }) => (
           <li key={id}>
@@ -52,7 +53,7 @@ export const ContactsList = ({ contact }) => {
           </li>
         ))}
       </List>
-    </div>
+    </Container>
   );
 };
 

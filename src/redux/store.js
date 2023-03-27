@@ -12,7 +12,7 @@ import {
 import storage from 'redux-persist/lib/storage';
 import { filterReducer } from './filterSlice.js';
 import { contactsReducer } from './contactsSlice';
-import { authReducer } from './authSlice.js';
+import { authReducer } from './auth-slice.js';
 
 const middleware = [
   ...getDefaultMiddleware({

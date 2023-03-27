@@ -1,6 +1,17 @@
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { register } from '../redux/operations';
+import {
+  Form,
+  FormSection,
+  FormLabel,
+  ContactFormINput,
+  AddContactFormBtn,
+  SwitchPassViewBtn,
+  PassBlock,
+} from 'components/PhoneBook/PhoneBook.styled';
+import { ContactsTitle } from '../components/ContactsList/ContactsList.styled';
+import { BsEye, BsEyeSlash } from 'react-icons/bs';
 
 const Registration = () => {
   const [passwordType, setPasswordType] = useState('password');
@@ -28,30 +39,31 @@ const Registration = () => {
     setPasswordType('text');
   };
   return (
-    <div>
-      <form onSubmit={handleSubmit}>
-        <h2>Sign up</h2>
-        <label htmlFor="">
+    <FormSection>
+      <Form onSubmit={handleSubmit}>
+        <ContactsTitle>Sign up</ContactsTitle>
+        <FormLabel htmlFor="">
           Email
-          <input required type="email" name="email" />
-        </label>
-        <label htmlFor="">
-          <div>
+          <ContactFormINput required type="email" name="email" />
+        </FormLabel>
+        <FormLabel htmlFor="">
+          <PassBlock>
             <span>Password</span>
-            <button onClick={changePasswordType}>
-              {passwordType === 'password'}
-              {passwordType === 'text'}
-            </button>
-          </div>
-          <input required type={passwordType} name="password" />
-        </label>
-        <label htmlFor="">
+            <SwitchPassViewBtn onClick={changePasswordType}>
+              {passwordType === 'password' && <BsEyeSlash />}
+              {passwordType === 'text' && <BsEye />}
+            </SwitchPassViewBtn>
+          </PassBlock>
+
+          <ContactFormINput required type={passwordType} name="password" />
+        </FormLabel>
+        <FormLabel htmlFor="">
           Name
-          <input required type="text" name="name" />
-        </label>
-        <button type="submit">Sign up</button>
-      </form>
-    </div>
+          <ContactFormINput required type="text" name="name" />
+        </FormLabel>
+        <AddContactFormBtn type="submit">Sign up</AddContactFormBtn>
+      </Form>
+    </FormSection>
   );
 };
 export default Registration;

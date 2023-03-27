@@ -34,6 +34,7 @@ export const List = styled.ul`
     align-items: center;
     justify-content: center;
     margin-right: auto;
+    // font-size: 15px;
   }
   & p {
     display: flex;
@@ -76,9 +77,9 @@ export const ContactsNumbers = styled.span`
   width: fit-content;
   margin-right: auto;
   margin-left: auto;
-  /* border-radius: 6px; */
   margin-top: 10px;
   margin-bottom: 15px;
+  font-size: 15px;
 `;
 
 export const ButtonDelete = styled.button`
